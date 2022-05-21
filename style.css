@@ -1,0 +1,24 @@
+*, *::after, *::before {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background: #222;
+	color: #fff;
+}
+
+#desktop {
+	height: 340px;
+	width : 680px;
+	background: orange;
+}
+#mobile {
+	background: orangered;
+}
+
+.filler {
+	background: rgba(204,204,253,1);
+	content: "image";
+}
