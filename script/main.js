@@ -13,7 +13,7 @@ function paint(setIndex) {
 
 		// writeText("second", set.text[0]);
     for (var t of set.text)
-      writeText("معاك وبس باليل", t);
+      writeText("This is the Test - معاك وبس", t);
     for (var i of set.images)
       writeImage(i);
 	}
@@ -47,6 +47,7 @@ function writeText(text, prop) {
   Desktop.resetTransform();
 	Desktop.font = prop.f;
 	Desktop.textBaseline = "middle";
+  Desktop.textAlign = prop.a || "left";
 	Desktop.fillStyle = "#222";
 	Desktop.fillText(text, prop.x, prop.y);
 	Mobile .fillText(text, prop.x, prop.y);
@@ -65,15 +66,23 @@ function roundedRect(ctx, x, y, width, height, radius) {
 const Sets = [
 	{
 		background: "../asset/plus-bubble.png",
-		images: [],
+		images: [
+      {
+        x: 540, y: 120,
+        t: [1, 0, 0, 1, 0, 0],
+        w: 200, h: 200
+      }
+    ],
 		text: [
 			{
-				x: 10, y: 20,
-				s: 20
+				x: 640, y: 400,
+				f: "50px Arial",
+        a: "center",
       },
 			{
-				x: 50, y: 50,
-				s: 12
+				x: 640, y: 500,
+				f: "40px Arial",
+        a: "center"
       }
     ]
   },
@@ -98,10 +107,10 @@ const Sets = [
     ],
     text: [
       {
-        x: 95, y: 380, f: "70px Aldhabi"
+        x: 95, y: 380, f: "80px Aldhabi"
       },
 			{
-        x: 95, y: 520, f: "50px Arial"
+        x: 95, y: 520, f: "40px Arial"
       }
     ]
   }
