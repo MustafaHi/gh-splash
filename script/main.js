@@ -1,7 +1,7 @@
 const $ = (s) => document.querySelector(s);
 const Desktop = $("#desktop").getContext("2d");
-const Mobile  = $("#mobile").getContext("2d");
-
+const Mobile  = $("#mobile") .getContext("2d");
+Desktop.imageSmoothingEnabled = false;
 function paint(setIndex) {
 	const set = Sets[setIndex];
 	const BG = new Image();
@@ -11,27 +11,26 @@ function paint(setIndex) {
 		writeBackground(BG);
 		Mobile.drawImage(BG, 0, 0);
 
-		// writeText("second", set.text[1]);
+		// writeText("second", set.text[0]);
+    for (var t of set.text)
+      writeText("معاك وبس باليل", t);
+    for (var i of set.images)
+      writeImage(i);
 	}
-  for (var i of set.images)
-    writeImage(i);
-  for (var t of set.text)
-    writeText("first", t);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
 	paint(1);
 });
 
-function writeImage(prop) {
+function writeImage(prop, src = "../asset/test.jpg") {
   const img = new Image();
-        img.src = "../asset/test.jpg";
+        img.src = src;
   img.onload = () => {
     const ptrn = Desktop.createPattern(img, "repeat");
     Desktop.fillStyle = ptrn;
-    Desktop.transform(prop.t[0], prop.t[1], prop.t[2],
-                      prop.t[3], prop.t[4], prop.t[5]);
-      
+    Desktop.setTransform(prop.t[0], prop.t[1], prop.t[2],
+                         prop.t[3], prop.t[4], prop.t[5]);
     // Desktop.fillRect(prop.x, prop.y, prop.w, prop.h);
     roundedRect(Desktop, prop.x, prop.y, prop.w, prop.h, 30);
   }
@@ -45,6 +44,9 @@ function writeBackground(img) {
 }
 
 function writeText(text, prop) {
+  Desktop.resetTransform();
+	Desktop.font = prop.f;
+	Desktop.textBaseline = "middle";
 	Desktop.fillStyle = "#222";
 	Desktop.fillText(text, prop.x, prop.y);
 	Mobile .fillText(text, prop.x, prop.y);
@@ -66,13 +68,11 @@ const Sets = [
 		images: [],
 		text: [
 			{
-				x: 10,
-				y: 20,
+				x: 10, y: 20,
 				s: 20
       },
 			{
-				x: 50,
-				y: 50,
+				x: 50, y: 50,
 				s: 12
       }
     ]
@@ -81,7 +81,7 @@ const Sets = [
     background: "../asset/app-show.png",
     images: [
       {
-        x: 95, y: 128,
+        x: 95, y: 100,
         t: [1, 0, 0, 1, 0, 0],
         w: 200, h: 200
       },
@@ -89,11 +89,19 @@ const Sets = [
         x: 662, y: -14,
         t: [1, 0.08, -0.07, 1, 0, 0],
         w: 290, h: 700
+      },
+      {
+        x: 1006.5, y: -88,
+        t: [1, 0.080, -0.07, 1, 0, 0],
+        w: 290, h: 628
       }
     ],
     text: [
       {
-        x: 20, y: 10
+        x: 95, y: 380, f: "70px Aldhabi"
+      },
+			{
+        x: 95, y: 520, f: "50px Arial"
       }
     ]
   }
