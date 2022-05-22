@@ -13,27 +13,28 @@ function paint(setIndex) {
 
 		// writeText("second", set.text[1]);
 	}
-  for (var i of set.images) {
-      const img = new Image();
-      img.src = "../asset/test.jpg";
-      console.log(i);
-      img.onload = () => { writeImage(img, i) };
-  }
+  for (var i of set.images)
+    writeImage(i);
   for (var t of set.text)
-      writeText("first", t);
+    writeText("first", t);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
 	paint(1);
 });
 
-function writeImage(img, prop) {
-  const ptrn = Desktop.createPattern(img, "repeat");
-  Desktop.fillStyle = ptrn;
-  Desktop.transform(prop.t[0], prop.t[1], prop.t[2],
-                       prop.t[3], prop.t[4], prop.t[5]);
-
-  Desktop.fillRect(prop.x, prop.y, prop.w, prop.h);
+function writeImage(prop) {
+  const img = new Image();
+        img.src = "../asset/test.jpg";
+  img.onload = () => {
+    const ptrn = Desktop.createPattern(img, "repeat");
+    Desktop.fillStyle = ptrn;
+    Desktop.transform(prop.t[0], prop.t[1], prop.t[2],
+                      prop.t[3], prop.t[4], prop.t[5]);
+      
+    // Desktop.fillRect(prop.x, prop.y, prop.w, prop.h);
+    roundedRect(Desktop, prop.x, prop.y, prop.w, prop.h, 30);
+  }
 }
 
 function writeBackground(img) {
@@ -85,9 +86,9 @@ const Sets = [
         w: 200, h: 200
       },
       {
-        x: 663, y: -24,
-        t: [1, 0.09, -0.038, 1, 0, 0],
-        w: 270, h: 600
+        x: 662, y: -14,
+        t: [1, 0.08, -0.07, 1, 0, 0],
+        w: 290, h: 700
       }
     ],
     text: [
