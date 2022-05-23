@@ -1,6 +1,7 @@
 const $ = (s) => document.querySelector(s);
-const CTX     = $("#desktop").getContext("2d");
-const Mobile  = $("#mobile") .getContext("2d");
+const Desktop = $("#desktop");
+const CTX     = Desktop.getContext("2d");
+// const Mobile  = $("#mobile") .getContext("2d");
 CTX.imageSmoothingEnabled = false;
 
 function paintThis(setIndex) {
@@ -17,7 +18,7 @@ function paintThis(setIndex) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	paintThis(1);
+	paintThis(2);
 });
 
 const Paint = {};
@@ -29,7 +30,7 @@ Paint.image = (prop, src = "../asset/test.jpg") => {
     const ptrn = CTX.createPattern(img, "repeat");
     CTX.fillStyle = ptrn;
     CTX.setTransform(prop.t[0], prop.t[1], prop.t[2],
-                         prop.t[3], prop.t[4], prop.t[5]);
+                     prop.t[3], prop.t[4], prop.t[5]);
     Paint.rect(prop.x, prop.y, prop.w, prop.h, Set.radius || 30);
   }
 }
@@ -37,7 +38,7 @@ Paint.background = (img) => {
 	const ptrn = CTX.createPattern(img, "repeat");
 	CTX.fillStyle = ptrn;
   CTX.resetTransform();
-	CTX.fillRect(0, 0, $("#desktop").width, $("#desktop").height);
+	CTX.fillRect(0, 0, Desktop.width, Desktop.height);
 }
 Paint.text = (text, prop) => {
   CTX.resetTransform();
@@ -72,7 +73,7 @@ const Sets = [
 			{
 				x: 640, y: 400,
 				f: "50px Arial",
-        a: "center",
+        a: "center"
       },
 			{
 				x: 640, y: 500,
@@ -84,6 +85,7 @@ const Sets = [
   {
     title: "App",
     background: "../asset/app-show.png",
+    radius: 30,
     images: [
       {
         x: 95, y: 100,
