@@ -4,7 +4,7 @@ const CTX     = Desktop.getContext("2d");
 // const Mobile  = $("#mobile") .getContext("2d");
 CTX.imageSmoothingEnabled = false;
 
-function paintThis(setIndex) {
+function paintSet(setIndex) {
 	Set = Sets[setIndex];
 	const BG = new Image();
 	BG.src = Set.background;
@@ -18,7 +18,7 @@ function paintThis(setIndex) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	paintThis(2);
+	paintSet(2);
 });
 
 const Paint = {};
@@ -64,6 +64,7 @@ const Sets = [
 		background: "../asset/cover-plus-bubble.png",
 		images: [
       {
+        title: "page-cover",
         x: 540, y: 120,
         t: [1, 0, 0, 1, 0, 0],
         w: 200, h: 200
@@ -88,16 +89,19 @@ const Sets = [
     radius: 30,
     images: [
       {
+        title: "icon",
         x: 95, y: 100,
         t: [1, 0, 0, 1, 0, 0],
         w: 200, h: 200
       },
       {
+        title: "phone 01",
         x: 662, y: -14,
         t: [1, 0.08, -0.07, 1, 0, 0],
         w: 290, h: 700
       },
       {
+        title: "phone 02",
         x: 1006.5, y: -88,
         t: [1, 0.080, -0.07, 1, 0, 0],
         w: 290, h: 628
@@ -119,11 +123,13 @@ const Sets = [
     radius: 41,
     images: [
       {
+        title: "icon",
         x: 95, y: 100,
         t: [1, 0, 0, 1, 0, 0],
         w: 200, h: 200
       },
       {
+        title: "page",
         x: 612, y: 220,
         t: [1, -0.13, 0.263, 1, 0, 0],
         w: 660, h: 680
