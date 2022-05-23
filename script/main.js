@@ -1,71 +1,66 @@
 const $ = (s) => document.querySelector(s);
-const Desktop = $("#desktop").getContext("2d");
+const CTX     = $("#desktop").getContext("2d");
 const Mobile  = $("#mobile") .getContext("2d");
-Desktop.imageSmoothingEnabled = false;
-function paint(setIndex) {
-	set = Sets[setIndex];
-	const BG = new Image();
-	BG.src = set.background;
-	BG.onload = () => {
-		// Desktop.drawImage(BG, 0, 0);
-		writeBackground(BG);
-		Mobile.drawImage(BG, 0, 0);
+CTX.imageSmoothingEnabled = false;
 
-		// writeText("second", set.text[0]);
-    for (var t of set.text)
-      writeText("This is the Test - معاك وبس", t);
-    for (var i of set.images)
-      writeImage(i);
+function paintThis(setIndex) {
+	Set = Sets[setIndex];
+	const BG = new Image();
+	BG.src = Set.background;
+	BG.onload = () => {
+		Paint.background(BG);
+    for (var t of Set.text)
+      Paint.text("This is the Test - معاك وبس", t);
+    for (var i of Set.images)
+      Paint.image(i);
 	}
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	paint(2);
+	paintThis(1);
 });
 
-function writeImage(prop, src = "../asset/test.jpg") {
+const Paint = {};
+
+Paint.image = (prop, src = "../asset/test.jpg") => {
   const img = new Image();
         img.src = src;
   img.onload = () => {
-    const ptrn = Desktop.createPattern(img, "repeat");
-    Desktop.fillStyle = ptrn;
-    Desktop.setTransform(prop.t[0], prop.t[1], prop.t[2],
+    const ptrn = CTX.createPattern(img, "repeat");
+    CTX.fillStyle = ptrn;
+    CTX.setTransform(prop.t[0], prop.t[1], prop.t[2],
                          prop.t[3], prop.t[4], prop.t[5]);
-    // Desktop.fillRect(prop.x, prop.y, prop.w, prop.h);
-    roundedRect(Desktop, prop.x, prop.y, prop.w, prop.h, set.radius || 30);
+    Paint.rect(prop.x, prop.y, prop.w, prop.h, Set.radius || 30);
   }
 }
-
-function writeBackground(img) {
-	const ptrn = Desktop.createPattern(img, "repeat");
-	Desktop.fillStyle = ptrn;
-  Desktop.resetTransform();
-	Desktop.fillRect(0, 0, $("#desktop").width, $("#desktop").height);
+Paint.background = (img) => {
+	const ptrn = CTX.createPattern(img, "repeat");
+	CTX.fillStyle = ptrn;
+  CTX.resetTransform();
+	CTX.fillRect(0, 0, $("#desktop").width, $("#desktop").height);
 }
-
-function writeText(text, prop) {
-  Desktop.resetTransform();
-	Desktop.font = prop.f;
-	Desktop.textBaseline = "middle";
-  Desktop.textAlign = prop.a || "left";
-	Desktop.fillStyle = set.color || "#222";
-	Desktop.fillText(text, prop.x, prop.y);
-	Mobile .fillText(text, prop.x, prop.y);
+Paint.text = (text, prop) => {
+  CTX.resetTransform();
+	CTX.font = prop.f;
+	CTX.textBaseline = "middle";
+  CTX.textAlign = prop.a || "left";
+	CTX.fillStyle = Set.color || "#222";
+	CTX.fillText(text, prop.x, prop.y);
 }
-
-function roundedRect(ctx, x, y, width, height, radius) {
-	ctx.beginPath();
-	ctx.moveTo(x, y + radius);
-	ctx.arcTo(x, y + height, x + radius, y + height, radius);
-	ctx.arcTo(x + width, y + height, x + width, y + height - radius, radius);
-	ctx.arcTo(x + width, y, x + width - radius, y, radius);
-	ctx.arcTo(x, y, x, y + radius, radius);
-	ctx.fill()
+Paint.rect = (x, y, width, height, radius) => {
+	CTX.beginPath();
+	CTX.moveTo(x, y + radius);
+	CTX.arcTo(x, y + height, x + radius, y + height, radius);
+	CTX.arcTo(x + width, y + height, x + width, y + height - radius, radius);
+	CTX.arcTo(x + width, y, x + width - radius, y, radius);
+	CTX.arcTo(x, y, x, y + radius, radius);
+	CTX.fill();
 }
 
 const Sets = [
 	{
-		background: "../asset/plus-bubble.png",
+    title: "Cover - Plus",
+		background: "../asset/cover-plus-bubble.png",
 		images: [
       {
         x: 540, y: 120,
@@ -87,6 +82,7 @@ const Sets = [
     ]
   },
   {
+    title: "App",
     background: "../asset/app-show.png",
     images: [
       {
@@ -115,6 +111,7 @@ const Sets = [
     ]
   },
   {
+    title: "Page - Dark",
     background: "../asset/page-black.png",
     color: "#fff",
     radius: 41,
@@ -140,4 +137,4 @@ const Sets = [
     ]
   }
 ];
-var set = Sets[0];
+var Set = Sets[0];
