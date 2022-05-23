@@ -3,7 +3,7 @@ const Desktop = $("#desktop").getContext("2d");
 const Mobile  = $("#mobile") .getContext("2d");
 Desktop.imageSmoothingEnabled = false;
 function paint(setIndex) {
-	const set = Sets[setIndex];
+	set = Sets[setIndex];
 	const BG = new Image();
 	BG.src = set.background;
 	BG.onload = () => {
@@ -20,7 +20,7 @@ function paint(setIndex) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	paint(1);
+	paint(2);
 });
 
 function writeImage(prop, src = "../asset/test.jpg") {
@@ -32,7 +32,7 @@ function writeImage(prop, src = "../asset/test.jpg") {
     Desktop.setTransform(prop.t[0], prop.t[1], prop.t[2],
                          prop.t[3], prop.t[4], prop.t[5]);
     // Desktop.fillRect(prop.x, prop.y, prop.w, prop.h);
-    roundedRect(Desktop, prop.x, prop.y, prop.w, prop.h, 30);
+    roundedRect(Desktop, prop.x, prop.y, prop.w, prop.h, set.radius || 30);
   }
 }
 
@@ -48,7 +48,7 @@ function writeText(text, prop) {
 	Desktop.font = prop.f;
 	Desktop.textBaseline = "middle";
   Desktop.textAlign = prop.a || "left";
-	Desktop.fillStyle = "#222";
+	Desktop.fillStyle = set.color || "#222";
 	Desktop.fillText(text, prop.x, prop.y);
 	Mobile .fillText(text, prop.x, prop.y);
 }
@@ -113,5 +113,31 @@ const Sets = [
         x: 95, y: 520, f: "40px Arial"
       }
     ]
+  },
+  {
+    background: "../asset/page-black.png",
+    color: "#fff",
+    radius: 41,
+    images: [
+      {
+        x: 95, y: 100,
+        t: [1, 0, 0, 1, 0, 0],
+        w: 200, h: 200
+      },
+      {
+        x: 612, y: 220,
+        t: [1, -0.13, 0.263, 1, 0, 0],
+        w: 660, h: 680
+      },
+    ],
+    text: [
+      {
+        x: 95, y: 380, f: "80px Aldhabi"
+      },
+			{
+        x: 95, y: 520, f: "40px Arial"
+      }
+    ]
   }
 ];
+var set = Sets[0];
