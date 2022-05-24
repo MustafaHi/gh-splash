@@ -24,6 +24,8 @@ body {
 	height: 340px;
 	width : 680px;
 	background: orange;
+	border-radius: 3px;
+	box-shadow: rgba(0, 0, 0, 0.2) 0px 5px 10px;
 	/* box-shadow: 7.8px 15.5px 15.5px hsl(0deg 0% 0% / 0.26); */
 }
 #mobile {

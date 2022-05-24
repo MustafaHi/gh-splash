@@ -18,7 +18,7 @@ function paintSet(setIndex) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	paintSet(2);
+	paintSet(3);
 });
 
 const Paint = {};
@@ -133,7 +133,7 @@ const Sets = [
         x: 612, y: 220,
         t: [1, -0.13, 0.263, 1, 0, 0],
         w: 660, h: 680
-      },
+      }
     ],
     text: [
       {
@@ -141,6 +141,30 @@ const Sets = [
       },
 			{
         x: 95, y: 520, f: "40px Arial"
+      }
+    ]
+  },
+  {
+    title: "Page - Color",
+    background: "../asset/page-color.png",
+    color: "#fff",
+    radius: 9,
+    images: [
+      {
+        title: "page",
+        x: 150, y: 223,
+        t: [1, 0, 0, 1, 0, 0],
+        w: 980, h: 510
+      }
+    ],
+    text: [
+      {
+        x: 640, y: 80, f: "45px Inter",
+        a: "center",
+      },
+			{
+        x: 640, y: 170, f: "30px Inter",
+        a: "center"
       }
     ]
   }
