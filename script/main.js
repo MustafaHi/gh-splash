@@ -18,7 +18,7 @@ function paintSet(setIndex) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	paintSet(3);
+	paintSet(0);
 });
 
 const Paint = {};
@@ -59,6 +59,26 @@ Paint.rect = (x, y, width, height, radius) => {
 }
 
 const Sets = [
+  {
+    title: "Cover - World",
+    background: "../asset/cover-world.png",
+    color: "#222",
+    images: [],
+    text: [
+      {
+        x: 640, y: 270, f: "80px Inter",
+        a: "center",
+      },
+			{
+        x: 640, y: 380, f: "40px Inter",
+        a: "center"
+      },
+			{
+        x: 640, y: 480, f: "20px Inter",
+        a: "center"
+      }
+    ]
+  },
 	{
     title: "Cover - Plus",
 		background: "../asset/cover-plus-bubble.png",
