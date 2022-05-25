@@ -57,6 +57,7 @@ body {
 	display: flex;
 }
 .image {
+	width: 112px;
 	padding: 4px;
 	margin-right: 4px;
 	border: 2px solid #ddd;
@@ -66,4 +67,5 @@ body {
 }
 .image img {
 	height: 50px;
+	max-width: 100%;
 }

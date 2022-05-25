@@ -21,6 +21,22 @@ document.addEventListener("DOMContentLoaded", () => {
 	paintSet(0);
 });
 
+let imgTarget;
+$("#images").addEventListener("click", (evt) => {
+  let target = evt.target.closest(".image")
+  if (target) {
+      imgTarget = target.querySelector("img");
+      $("#uploader").click();
+  };
+});
+$("#uploader").addEventListener("change", (evt, v) => {
+  let reader = new FileReader();
+      reader.onload = (evt) => {
+        imgTarget.setAttribute("src", evt.target.result);
+      }
+      reader.readAsDataURL(evt.target.files[0]);
+});
+
 const Paint = {};
 
 Paint.image = (prop, src = "../asset/test.jpg") => {
