@@ -1,24 +1,41 @@
-const $ = (s) => document.querySelector(s);
+const $  = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
 const Desktop = $("#desktop");
 const CTX     = Desktop.getContext("2d");
 // const Mobile  = $("#mobile") .getContext("2d");
-CTX.imageSmoothingEnabled = false;
+// CTX.imageSmoothingEnabled = false;
+const DOM = {
+  covers: $$("#sets"),
+  images: $("#images"),
+  image : $$("#images img"),
+}
+
+function setup() {
+	let html = '';
+  for (let i of Set.images)
+			html += `<div class="image"><img src="asset/test.jpg"><p>${i.title || "what"}</p></div>`;
+	html += "";
+	DOM.images.innerHTML = html;
+  DOM.image = DOM.images.querySelectorAll("img");
+}
+
 
 function paintSet(setIndex) {
-	Set = Sets[setIndex];
+	if(setIndex) Set = Sets[setIndex];
 	const BG = new Image();
 	BG.src = Set.background;
 	BG.onload = () => {
 		Paint.background(BG);
-    for (var t of Set.text)
+    for (let t of Set.text)
       Paint.text("This is the Test - معاك وبس", t);
-    for (var i of Set.images)
-      Paint.image(i);
+    for (let i in Set.images)
+      Paint.image(Set.images[i], DOM.image[i]);
 	}
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-	paintSet(0);
+  setup();
+	paintSet();
 });
 
 let imgTarget;
@@ -27,28 +44,30 @@ $("#images").addEventListener("click", (evt) => {
   if (target) {
       imgTarget = target.querySelector("img");
       $("#uploader").click();
-  };
+  }
 });
 $("#uploader").addEventListener("change", (evt, v) => {
   let reader = new FileReader();
       reader.onload = (evt) => {
         imgTarget.setAttribute("src", evt.target.result);
+        paintSet();
       }
       reader.readAsDataURL(evt.target.files[0]);
 });
 
 const Paint = {};
 
-Paint.image = (prop, src = "../asset/test.jpg") => {
-  const img = new Image();
-        img.src = src;
-  img.onload = () => {
-    const ptrn = CTX.createPattern(img, "repeat");
-    CTX.fillStyle = ptrn;
-    CTX.setTransform(prop.t[0], prop.t[1], prop.t[2],
-                     prop.t[3], prop.t[4], prop.t[5]);
-    Paint.rect(prop.x, prop.y, prop.w, prop.h, Set.radius || 30);
-  }
+Paint.image = (prop, img) => {
+	const matrix = new DOMMatrix(prop.t);
+  CTX.setTransform(matrix);
+	const ptrn = CTX.createPattern(img, "no-repeat");
+  	// CTX.setTransform(prop.t[0], prop.t[1], prop.t[2],
+  	// 								 prop.t[3], prop.t[4], prop.t[5]);
+  let height = (img.naturalHeight / img.naturalWidth) * prop.w;
+  ptrn.setTransform(new DOMMatrix().scale(height / img.naturalHeight));
+  CTX.setTransform(matrix.translate(prop.x, prop.y));
+	CTX.fillStyle = ptrn;
+	Paint.rect(0, 0, prop.w, prop.h, Set.radius || 30);
 }
 Paint.background = (img) => {
 	const ptrn = CTX.createPattern(img, "repeat");
@@ -167,7 +186,7 @@ const Sets = [
       {
         title: "page",
         x: 612, y: 220,
-        t: [1, -0.13, 0.263, 1, 0, 0],
+        t: [1, -0.13, 0.261, 1, 0, 0],
         w: 660, h: 680
       }
     ],
@@ -205,4 +224,4 @@ const Sets = [
     ]
   }
 ];
-var Set = Sets[0];
+var Set = Sets[2];
