@@ -5,15 +5,22 @@ const CTX     = Desktop.getContext("2d");
 // const Mobile  = $("#mobile") .getContext("2d");
 // CTX.imageSmoothingEnabled = false;
 const DOM = {
-  covers: $$("#sets"),
+  covers: $("#sets"),
   images: $("#images"),
   image : $$("#images img"),
   texts : $("#texts"),
   text  : $$("#texts input")
 };
 
-function setup() {
-	let html = '';
+function setup(init = false) {
+  let html = '';
+  if (init)
+  {
+  for (let i in Sets)
+      html += `<div class="image" index="${i}"><img src="${Sets[i].background}"><p>${Sets[i].title}</p></div>`;
+	DOM.covers.innerHTML = html;
+      html = '';
+  }
   for (let i of Set.images)
 			html += `<div class="image"><img src="asset/test.jpg"><p>${i.title || "what"}</p></div>`;
 	DOM.images.innerHTML = html;
@@ -26,7 +33,7 @@ function setup() {
 }
 
 
-function paintSet(setIndex) {
+async function paintSet(setIndex) {
 	if(setIndex) Set = Sets[setIndex];
 	const BG = new Image();
 	BG.src = Set.background;
@@ -41,9 +48,8 @@ function paintSet(setIndex) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  setup();
+  setup(true);
   Promise.all(Array.from(document.images).filter(img => !img.complete).map(img => new Promise(resolve => { img.onload = img.onerror = resolve; }))).then(() => {
-    console.log('images finished loading');
     paintSet();
   });
 });
@@ -52,6 +58,14 @@ document.addEventListener("DOMContentLoaded", () => {
 DOM.texts.addEventListener("input", (evt) => {
 	console.log(evt.target.value);
 	paintSet();
+});
+DOM.covers.addEventListener("click", (evt) => {
+  let target = evt.target.closest(".image")
+  if (target) {
+    Set = Sets[target.getAttribute("index")];
+    setup();
+    paintSet();
+  }
 });
 let imgTarget;
 DOM.images.addEventListener("click", (evt) => {
