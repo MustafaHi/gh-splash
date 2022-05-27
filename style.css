@@ -57,6 +57,7 @@ body {
 	display: flex;
 }
 .image {
+	position: relative;
 	width: 112px;
 	padding: 4px;
 	margin-right: 4px;
@@ -64,10 +65,18 @@ body {
 	border-radius: 2px;
 	font-size: 13px;
 	cursor: pointer;
+	user-select: none;
 }
 .image img {
 	height: 50px;
 	max-width: 100%;
+}
+.image span {
+	position: absolute;
+	bottom: 20px;
+	right: 5px;
+	font-size: .8em;
+	background: #fff;
 }
 
 #texts {

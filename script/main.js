@@ -1,3 +1,6 @@
+//| MustafaHi - Social Preview Builder
+//| https://github.com/MustafaHi/gh-social
+
 const $  = (s) => document.querySelector(s);
 const $$ = (s) => document.querySelectorAll(s);
 const Desktop = $("#desktop");
@@ -12,6 +15,14 @@ const DOM = {
   text  : $$("#texts input")
 };
 
+document.addEventListener("DOMContentLoaded", () => {
+  setup(true);
+  Promise.all(Array.from(document.images).filter(img => !img.complete).map(img => new Promise(resolve => { img.onload = img.onerror = resolve; }))).then(() => {
+    paintSet();
+  });
+});
+
+
 function setup(init = false) {
   let html = '';
   if (init)
@@ -22,7 +33,7 @@ function setup(init = false) {
       html = '';
   }
   for (let i of Set.images)
-			html += `<div class="image"><img src="asset/test.jpg"><p>${i.title || "what"}</p></div>`;
+			html += `<div class="image"><img src="asset/test.jpg"><p>${i.title || "what"}</p><span>${i.w + "x" + i.h}</span></div>`;
 	DOM.images.innerHTML = html;
   DOM.image = DOM.images.querySelectorAll("img");
       html = '';
@@ -31,7 +42,6 @@ function setup(init = false) {
   DOM.texts.innerHTML = html;
   DOM.text = DOM.texts.querySelectorAll("input");
 }
-
 
 async function paintSet(setIndex) {
 	if(setIndex) Set = Sets[setIndex];
@@ -47,16 +57,8 @@ async function paintSet(setIndex) {
 	}
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  setup(true);
-  Promise.all(Array.from(document.images).filter(img => !img.complete).map(img => new Promise(resolve => { img.onload = img.onerror = resolve; }))).then(() => {
-    paintSet();
-  });
-});
-
 
 DOM.texts.addEventListener("input", (evt) => {
-	console.log(evt.target.value);
 	paintSet();
 });
 DOM.covers.addEventListener("click", (evt) => {
@@ -64,7 +66,9 @@ DOM.covers.addEventListener("click", (evt) => {
   if (target) {
     Set = Sets[target.getAttribute("index")];
     setup();
-    paintSet();
+    Promise.all(Array.from(document.images).filter(img => !img.complete).map(img => new Promise(resolve => { img.onload = img.onerror = resolve; }))).then(() => {
+      paintSet();
+    });
   }
 });
 let imgTarget;
@@ -82,6 +86,7 @@ $("#uploader").addEventListener("change", (evt, v) => {
         paintSet();
       }
       reader.readAsDataURL(evt.target.files[0]);
+      evt.target.value = "";
 });
 
 const Paint = {};
@@ -110,7 +115,7 @@ Paint.text = (text, prop) => {
 	CTX.resetTransform();
 	CTX.font = prop.f;
 	CTX.textBaseline = "middle";
-  CTX.textAlign = prop.a || "left";
+  CTX.textAlign = Set.align || "left";
 	CTX.fillStyle = Set.color || "#222";
 
 	let x = prop.x, y = prop.y,
@@ -173,7 +178,7 @@ const Sets = [
     align: "center",
 		images: [
       {
-        title: "page-cover",
+        title: "icon",
         x: 540, y: 120,
         t: [1, 0, 0, 1, 0, 0],
         w: 200, h: 200
@@ -275,8 +280,9 @@ const Sets = [
 			{
         title: "description",
         x: 640, y: 170, f: "30px Inter",
+        w: 880, h: 12
       }
     ]
   }
 ];
-var Set = Sets[2];
+var Set = Sets[0];
