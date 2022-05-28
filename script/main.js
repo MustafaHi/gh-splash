@@ -109,9 +109,8 @@ Paint.background = (img) => {
   CTX.resetTransform();
 	CTX.fillRect(0, 0, Desktop.width, Desktop.height);
 }
-Paint.text = (text, prop) => {
+Paint.text = (txt, prop) => {
 	if (!prop.w) prop.w = 500;
-	if (!prop.h) prop.h = 16;
 	CTX.resetTransform();
 	CTX.font = prop.f;
 	CTX.textBaseline = "middle";
@@ -119,26 +118,26 @@ Paint.text = (text, prop) => {
 	CTX.fillStyle = Set.color || "#222";
 
 	let x = prop.x, y = prop.y,
-      lines = text.split("\n");
+      lines = txt.split("\\n");
 
 	for (let i = 0; i < lines.length; i++)
   {
-    let words = lines[i].split(' '),
+    let words = lines[i].trim().split(' '),
         line = '';
 		for (let n = 0; n < words.length; n++)
     {
 			let testLine = line + words[n] + ' ',
 			    metrics = CTX.measureText(testLine);
 			if (metrics.width > prop.w && n > 0) {
-				CTX.fillText(line, x, y);
-				line = words[n] + ' ';
-				y += prop.h * 2.5;
+          CTX.fillText(line, x, y);
+          line = words[n] + ' ';
+          y += parseInt(prop.f);
 			} else {
-				line = testLine;
+          line = testLine;
 			}
 		}
 		CTX.fillText(line, x, y);
-		y += prop.h;
+		y += parseInt(prop.f);
 	}
 }
 Paint.rect = (x, y, width, height, radius) => {
@@ -280,7 +279,7 @@ const Sets = [
 			{
         title: "description",
         x: 640, y: 170, f: "30px Inter",
-        w: 880, h: 12
+        w: 880
       }
     ]
   }
