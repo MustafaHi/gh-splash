@@ -1,5 +1,5 @@
 //| MustafaHi - Social Preview Builder
-//| https://github.com/MustafaHi/gh-social
+//| https://github.com/MustafaHi/social
 
 const $  = (s) => document.querySelector(s);
 const $$ = (s) => document.querySelectorAll(s);
